@@ -6,12 +6,24 @@ from split import tf_train_valid_test_split
 
 BATCH_SIZE = 32
 IMAGE_SIZE = 256
-SUMMARY_FILE_NAME = 'peppers_report.txt'
+SUMMARY_FILE_NAME = 'global_report.txt'
+
+callback = tf.keras.callbacks.EarlyStopping(
+    monitor='val_loss',
+    min_delta=0,
+    patience=5,
+    verbose=0,
+    mode='auto',
+    baseline=None,
+    restore_best_weights=False,
+    start_from_epoch=0
+)
+
 
 
 # dataset import
 dataset = tf.keras.utils.image_dataset_from_directory(
-    directory  = 'PlantVillage/Peppers',
+    directory  = 'PlantVillageFull',
     batch_size = 32 ,
     image_size = (IMAGE_SIZE , IMAGE_SIZE) , 
     shuffle    = True
@@ -48,7 +60,7 @@ test_ds = test_ds.prefetch(buffer_size = tf.data.AUTOTUNE).cache()
 model = tf.keras.Sequential()
 
 model.add(rescale_and_resize)
-model.add(tf.keras.layers.Conv2D(filters = 32 , kernel_size = (3,3) ,
+model.add(tf.keras.layers.Conv2D(filters = 48 , kernel_size = (3,3) ,
                               activation = 'relu' , input_shape = (BATCH_SIZE , IMAGE_SIZE , IMAGE_SIZE , 3)))
 model.add(tf.keras.layers.MaxPooling2D((2 , 2)))
 
@@ -65,7 +77,7 @@ model.add(tf.keras.layers.Flatten())
 model.add(tf.keras.layers.Dense(64 , activation = 'relu'))
 model.add(tf.keras.layers.Dropout(0.2))
 
-model.add(tf.keras.layers.Dense(2 , activation = 'softmax'))
+model.add(tf.keras.layers.Dense(15 , activation = 'softmax'))
 
 model.build(input_shape = (BATCH_SIZE , IMAGE_SIZE , IMAGE_SIZE , 3))
 
@@ -78,27 +90,28 @@ model.compile(
 training = model.fit(
     train_ds ,
     batch_size=BATCH_SIZE,
-    epochs = 10,
-    validation_data = valid_ds
+    epochs = 30,
+    validation_data = valid_ds,
+    callbacks=[callback]
     )
 
-pkl.dump(model , open('peppers_model.obj' , 'wb'))
+pkl.dump(model , open('global_model.obj' , 'wb'))
 
-# plt.figure(figsize = (10 , 10))
-# plt.subplot(1 , 2 , 1)
-# plt.plot(training.history['loss'] , label = 'train loss')
-# plt.plot(training.history['val_loss'] , label = 'validation loss')
-# plt.legend()
-# plt.xlabel('epochs')
+plt.figure(figsize = (10 , 10))
+plt.subplot(1 , 2 , 1)
+plt.plot(training.history['loss'] , label = 'train loss')
+plt.plot(training.history['val_loss'] , label = 'validation loss')
+plt.legend()
+plt.xlabel('epochs')
 
 
-# plt.subplot(2 , 2 , 2)
-# plt.plot(training.history['accuracy'] , label = 'train accuracy')
-# plt.plot(training.history['val_accuracy'] , label = 'validation accuracy')
-# plt.legend()
-# plt.xlabel('epochs')
+plt.subplot(2 , 2 , 2)
+plt.plot(training.history['accuracy'] , label = 'train accuracy')
+plt.plot(training.history['val_accuracy'] , label = 'validation accuracy')
+plt.legend()
+plt.xlabel('epochs')
 
-# plt.show()
+plt.show()
 
 try:
     # we print the result in a file

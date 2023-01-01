@@ -39,4 +39,4 @@ Non-trainable params: 0
 _________________________________________________________________
 
 ---- Model evaluation ---
-error on the test set : 0.24627840518951416 | accuracy on the test set : 0.9140625
+error on the test set : 0.20114783942699432 | accuracy on the test set : 0.9224137663841248

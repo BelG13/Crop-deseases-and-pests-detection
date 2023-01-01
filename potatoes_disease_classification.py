@@ -82,7 +82,6 @@ training = model.fit(
     validation_data = valid_ds
     )
 
-pkl.dump(model , open('peppers_model.obj' , 'wb'))
 
 plt.figure(figsize = (10 , 10))
 plt.subplot(1 , 2 , 1)
