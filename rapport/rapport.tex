@@ -84,7 +84,7 @@ Some images of the initial dataset can be visualize in the \textbf{Figure 2} bel
 \section{Model creation}
 ]
 
-I created three different models , one for each type of crop. at the end , I merge these three model into one. All the model and the code are available on \textbf{Github} [4]. The conception of the models are similar and not very hard. the main idea was to use convolutional layers  followed by Maxpooling Layer and finally connect it to fully connected layers.
+I created three different models , one for each type of crop. at the end , I also tried to create a model that can predict any categories from any crops. All the model and the code are available on \textbf{Github} [4]. The conception of the models are similar and not very hard. the main idea was to use convolutional layers  followed by Maxpooling Layer and finally connect it to fully connected layers.
 
 \end{multicols}
 
@@ -98,12 +98,34 @@ I created three different models , one for each type of crop. at the end , I mer
 [
 \section{Results}
 ]
-My results are really promising , each model achieve a great performance on the test set as you can see in the \textbf{Figure 4}. Only the model constructed for potatoes was relatively far from the $100\%$ of accuracy on the test.
+The results are really promising , each model achieve a great performance on the test set as you can see in the \textbf{Figure 4}. there is no real differences between the final accuracy of each model (around 91\%).
 
 \end{multicols}
 
+\begin{figure}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Models}         & \textbf{Accuracy} \\ \hline
+potatoes model & 0.92     \\ \hline
+peppers model  & 0.99     \\ \hline
+tomatoes model & 0.92     \\ \hline
+global model   & 0.91     \\ \hline
+\end{tabular}
+\caption{Accuracies on the test sets}
+\end{figure}
+
+\begin{multicols}{2}
+in y opinion , these results could be far better , especially for the global model. the main issus is that I used a very simple model containing only CNN layers and FC layers. One can add Batch Normalization layers and adding more layers in general. you can take a look at each model's structure on the report files available on my \textbf{Github} [4].
+\end{multicols}
+
+\begin{figure}[H]
+\centerline{\includegraphics[scale=0.4]{img/global_results}}
+\caption{Global model's loss and accuracy curves}
+\end{figure}
+
 \section{references}
-2. \href{http://www.overleaf.comhttps://www.agrivi.com/blog/yield-losses-due-to-pests}{http://www.overleaf.comhttps://www.agrivi.com/blog/yield-losses-due-to-pests} \\
+2. \href{https://www.agrivi.com/blog/yield-losses-due-to-pests}{https://www.agrivi.com/blog/yield-losses-due-to-pests} \\
 3. \href{https://www.kaggle.com/datasets/emmarex/plantdisease}{https://www.kaggle.com/datasets/emmarex/plantdisease}\\
 4.  \href{}{Github}
 
